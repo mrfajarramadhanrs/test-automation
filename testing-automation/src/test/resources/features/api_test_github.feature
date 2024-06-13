@@ -16,3 +16,8 @@ Feature: Testing Github API
     Given User get data from "user history"
     And Verify response from "user history"
     Then Verify last login with more than 1 years
+
+  Scenario: Validate palindrome words
+    Given User get data from "palindrome"
+    And Verify response from "palindrome"
+    Then Verify if the words are palindrome

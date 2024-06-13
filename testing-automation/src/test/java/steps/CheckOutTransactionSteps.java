@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 public class CheckOutTransactionSteps {
     private JSONObject transactionDetails;
     private JSONArray userDetails;
+    private JSONArray wordsDetails;
 
     Response response;
     ApiController api = new ApiController();
@@ -32,6 +33,9 @@ public class CheckOutTransactionSteps {
         } else if (sourceFrom.equals("user history")) {
             response = api.apiGetUserHistory();
             userDetails = new JSONArray(response.asString());
+        }else if(sourceFrom.equals("palindrome")){
+            response = api.apiGetWords();
+            wordsDetails = new JSONArray(response.asString());
         }
     }
 
@@ -45,7 +49,10 @@ public class CheckOutTransactionSteps {
             assertNotNull("shipping_address_data should not be null", transactionDetails.getJSONObject("shipping_address_data"));
         } else if (responseFrom.equals("user history")) {
             assertNotNull("user_history should not be null", userDetails);
+        } else if (responseFrom.equals("palindrome")) {
+            assertNotNull("user_history should not be null", wordsDetails);
         }
+
 
     }
 
@@ -105,5 +112,23 @@ public class CheckOutTransactionSteps {
                 Assert.assertEquals("INACTIVE", currentStatus);
             }
         }
+    }
+
+    @Then("Verify if the words are palindrome")
+    public boolean getWordsDetails() {
+        JSONObject words;
+        String checkerWords;
+        for (int i = 0; i < wordsDetails.length(); i++) {
+            words = wordsDetails.getJSONObject(i);
+            checkerWords = words.getString("word");
+            for (int n = 0; i < checkerWords.length() / 2; i++) {
+                if (checkerWords.charAt(n) != checkerWords.charAt(checkerWords.length() - 1 - i)) {
+                    System.out.println("This is Palindrome");
+                }
+            }
+            System.out.println("This is not Palindrome");;
+
+        }
+        return false;
     }
 }

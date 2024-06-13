@@ -36,4 +36,13 @@ public class ApiController {
         response.getBody().prettyPrint();
         return response;
     }
+
+    public Response apiGetWords() {
+        Response response = given().log().all().baseUri(baseUrl).basePath("/")
+                .contentType(ContentType.JSON)
+                .get("palindrome");
+
+        response.getBody().prettyPrint();
+        return response;
+    }
 }
